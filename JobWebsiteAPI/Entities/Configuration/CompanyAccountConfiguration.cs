@@ -8,6 +8,7 @@ namespace JobWebsiteAPI.Entities.Configuration
         public void Configure(EntityTypeBuilder<CompanyAccount> builder)
         {
             builder.HasMany(c=>c.CreatedJobOffers).WithOne(j=>j.Creator).HasForeignKey(c=>c.CreatorId).OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

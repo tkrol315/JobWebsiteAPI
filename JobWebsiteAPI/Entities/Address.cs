@@ -8,7 +8,5 @@
         public string Street { get; set; }
         public string ApartmentNumber { get; set; }
         public Account Account { get; set; }
-        public int AccountId { get; set; }
-
     }
 }
