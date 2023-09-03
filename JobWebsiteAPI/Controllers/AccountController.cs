@@ -1,5 +1,6 @@
 ﻿using JobWebsiteAPI.Models;
 using JobWebsiteAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Internal;
 
@@ -26,6 +27,12 @@ namespace JobWebsiteAPI.Controllers
         {
             await _accountService.RegisterCompanyAccount(dto);
             return Ok();
+        }
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginDto dto)
+        {
+            var token = await _accountService.GenerateJwt(dto);
+            return Ok(token);
         }
     }
 }

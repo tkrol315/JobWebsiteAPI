@@ -8,7 +8,9 @@
         public string PasswordHash { get; set; }
         public Address Address { get; set; } = new Address();
         public int AddressId { get; set; }
+        public AccountType AccountType { get; set; }
         public int AccountTypeId { get; set; }
+
        
 
     }

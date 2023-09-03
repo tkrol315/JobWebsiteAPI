@@ -9,16 +9,21 @@ namespace JobWebsiteAPI
     {
         public MappingProfile()
         {
-            CreateMap<RegisterPersonalAccountDto, PersonalAccount>()
-                .ForPath(a => a.Address.PostalCode, opt => opt.MapFrom(r => r.PostalCode))
-                .ForPath(a => a.Address.City, opt => opt.MapFrom(r => r.City))
-                .ForPath(a => a.Address.Street, opt => opt.MapFrom(r => r.Street))
-                .ForPath(a => a.Address.ApartmentNumber, opt => opt.MapFrom(r => r.ApartmentNumber));
-            CreateMap<RegisterCompanyAccountDto, CompanyAccount>()
+
+            CreateMap<RegisterAccountDto, Account>()
               .ForPath(a => a.Address.PostalCode, opt => opt.MapFrom(r => r.PostalCode))
               .ForPath(a => a.Address.City, opt => opt.MapFrom(r => r.City))
               .ForPath(a => a.Address.Street, opt => opt.MapFrom(r => r.Street))
               .ForPath(a => a.Address.ApartmentNumber, opt => opt.MapFrom(r => r.ApartmentNumber));
+
+            CreateMap<RegisterPersonalAccountDto, PersonalAccount>()
+                .IncludeBase<RegisterAccountDto, Account>();
+
+            CreateMap<RegisterCompanyAccountDto, CompanyAccount>()
+                .IncludeBase<RegisterAccountDto, Account>();
+
+            CreateMap<CreateJobOfferDto, JobOffer>()
+                .ForMember(c => c.ContractTypes, opt => opt.Ignore());
         }
     }
 }
