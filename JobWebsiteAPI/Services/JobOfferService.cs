@@ -11,6 +11,10 @@ namespace JobWebsiteAPI.Services
     public interface IJobOfferService
     {
         Task<int> CreateJobOfferDto(CreateJobOfferDto dto);
+        Task<IEnumerable<GetJobOfferDto>> GetAll();
+        Task<GetJobOfferDto> GetById(int id);
+        Task Delete(int id);
+        Task Update(int id, UpdateJobOfferDto dto);
     }
     public class JobOfferService : IJobOfferService 
     {
@@ -26,13 +30,43 @@ namespace JobWebsiteAPI.Services
         public async Task<int> CreateJobOfferDto(CreateJobOfferDto dto)
         {
             var jobOffer = _mapper.Map<JobOffer>(dto);
-            var contractTypes = await _dbContext.ContractTypes
-                .Where(c => dto.ContractTypes.Any(ct => c.Id == ct)).ToListAsync();
-            jobOffer.ContractTypes = contractTypes;
             jobOffer.CreatorId = int.Parse(_userContextService.User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _dbContext.JobOffers.AddAsync(jobOffer);
             await _dbContext.SaveChangesAsync();
             return jobOffer.Id;
+        }
+
+        public async Task<IEnumerable<GetJobOfferDto>> GetAll()
+        {
+            var jobs = await _dbContext.JobOffers.Include(j => j.Tags).Include(j => j.Creator).Include(j => j.ContractTypes).ToListAsync();
+            return _mapper.Map<List<GetJobOfferDto>>(jobs);
+        }
+        public async Task<GetJobOfferDto> GetById(int id)
+        {
+            var job = await _dbContext.JobOffers.Include(j => j.Tags).Include(j => j.Creator).Include(j => j.ContractTypes).FirstOrDefaultAsync(j => j.Id == id);
+            if (job is null)
+                throw new NotFoundException("Job not found");
+            return _mapper.Map<GetJobOfferDto>(job);
+        }
+
+        public async Task Delete(int id)
+        {
+            var job =await _dbContext.JobOffers.FirstOrDefaultAsync(j => j.Id == id);
+            if (job is null)
+                throw new NotFoundException("Job not found");
+            _dbContext.JobOffers.Remove(job);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task Update(int id , UpdateJobOfferDto dto)
+        {
+            var job = await _dbContext.JobOffers.FirstOrDefaultAsync(j => j.Id == id);
+            if(job is null)
+                throw new NotFoundException("Job not found");
+            job.GrossSalary = dto.GrossSalary;
+            job.HoursPerMonth = dto.HoursPerMonth;
+            job.Description = dto.Description;
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

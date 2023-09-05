@@ -1,8 +1,6 @@
-﻿using JobWebsiteAPI.Entities;
-
-namespace JobWebsiteAPI.Models
+﻿namespace JobWebsiteAPI.Models
 {
-    public class CreateJobOfferDto
+    public class UpdateJobOfferDto
     {
         public decimal GrossSalary { get; set; }
         public int HoursPerMonth { get; set; }

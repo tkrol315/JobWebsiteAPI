@@ -17,18 +17,19 @@ namespace JobWebsiteAPI
             {
                 await _dbContext.Database.MigrateAsync();
             }
-            if(!await _dbContext.ContractTypes.AnyAsync())
+            if (!await _dbContext.ContractTypes.AnyAsync())
             {
                 var contractTypes = GetContractTypes();
                 _dbContext.ContractTypes.AddRange(contractTypes);
                 await _dbContext.SaveChangesAsync();
             }
-           if(!await _dbContext.AccountTypes.AnyAsync())
+            if (!await _dbContext.AccountTypes.AnyAsync())
             {
                 var accountTypes = GetAccountTypes();
                 _dbContext.AccountTypes.AddRange(accountTypes);
                 await _dbContext.SaveChangesAsync();
             }
+           
         }
 
         private List<ContractType> GetContractTypes()
@@ -62,5 +63,7 @@ namespace JobWebsiteAPI
                 }
             };
         }
+     
+        
     }
 }

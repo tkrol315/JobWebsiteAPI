@@ -24,6 +24,11 @@ namespace JobWebsiteAPI
 
             CreateMap<CreateJobOfferDto, JobOffer>()
                 .ForMember(c => c.ContractTypes, opt => opt.Ignore());
+            CreateMap<JobOffer, GetJobOfferDto>()
+                .ForMember(g => g.ContractTypeNames, opt => opt.MapFrom(j => j.ContractTypes.Select(c => c.Name).ToList()))
+                .ForMember(g => g.TagNames, opt => opt.MapFrom(j => j.Tags.Select(t => t.Name).ToList()))
+                .ForMember(g => g.CompanyName, opt => opt.MapFrom(j => j.Creator.CompanyName));
+                
         }
     }
 }
