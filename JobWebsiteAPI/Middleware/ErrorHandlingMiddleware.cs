@@ -22,8 +22,8 @@ namespace JobWebsiteAPI.Middleware
             }
             catch (Exception)
             {
-                await context.Response.WriteAsync("Something went wrong");
                 context.Response.StatusCode = 500;
+                await context.Response.WriteAsync("Something went wrong");
             }
         }
     }

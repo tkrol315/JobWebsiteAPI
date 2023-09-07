@@ -1,8 +1,8 @@
-﻿namespace JobWebsiteAPI.Models
+﻿namespace JobWebsiteAPI.Models.JobOffer
 {
     public class GetJobOfferDto
     {
-
+        public int Id { get; set; }
         public string CompanyName { get; set; }
         public decimal GrossSalary { get; set; }
         public int HoursPerMonth { get; set; }

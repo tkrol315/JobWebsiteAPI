@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace JobWebsiteAPI.Models
+namespace JobWebsiteAPI.Models.AccountModels
 {
     public class RegisterAccountDto
     {

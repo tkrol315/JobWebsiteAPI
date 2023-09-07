@@ -1,4 +1,4 @@
-﻿using JobWebsiteAPI.Models;
+﻿using JobWebsiteAPI.Models.JobOffer;
 using JobWebsiteAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,9 +36,9 @@ namespace JobWebsiteAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete([FromRoute] int id)
+        public async Task<ActionResult> Remove([FromRoute] int id)
         {
-            await _jobOfferService.Delete(id);
+            await _jobOfferService.Remove(id);
             return NoContent();
         }
         [HttpPut("{id}")]

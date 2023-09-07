@@ -3,7 +3,8 @@ using FluentValidation.AspNetCore;
 using JobWebsiteAPI;
 using JobWebsiteAPI.Entities;
 using JobWebsiteAPI.Middleware;
-using JobWebsiteAPI.Models;
+using JobWebsiteAPI.Models.AccountModels;
+using JobWebsiteAPI.Models.JobOffer;
 using JobWebsiteAPI.Models.Validators;
 using JobWebsiteAPI.Services;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +21,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var jwtSettings = new JwtSettings();
 builder.Configuration.GetSection("JwtSettings").Bind(jwtSettings);
 
-builder.Services.AddDbContext<JobWebsiteDbContext>(options => {
+builder.Services.AddDbContext<JobWebsiteDbContext>(options =>
+{
     options.UseSqlServer(builder.Configuration.GetConnectionString("JobWebsiteConnectionString"));
 });
 builder.Services.AddAuthentication(options =>
@@ -41,12 +43,13 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddScoped<IAccountService,AccountService>();
-builder.Services.AddScoped<IJobOfferService,JobOfferService>();
-builder.Services.AddScoped<IUserContextService,UserContextService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IJobOfferService, JobOfferService>();
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IPasswordHasher<Account>,PasswordHasher<Account>>();
-builder.Services.AddScoped<IValidator<RegisterCompanyAccountDto>,RegisterCompanyAccountDtoValidator>();
+builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
+builder.Services.AddScoped<IValidator<RegisterCompanyAccountDto>, RegisterCompanyAccountDtoValidator>();
 builder.Services.AddScoped<IValidator<RegisterPersonalAccountDto>, RegisterPersonalAccountDtoValidator>();
 builder.Services.AddScoped<IValidator<CreateJobOfferDto>, CreateJobOfferDtoValidator>();
 builder.Services.AddScoped<Seeder>();

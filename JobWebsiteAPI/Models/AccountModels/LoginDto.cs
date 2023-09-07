@@ -1,4 +1,4 @@
-﻿namespace JobWebsiteAPI.Models
+﻿namespace JobWebsiteAPI.Models.AccountModels
 {
     public class LoginDto
     {

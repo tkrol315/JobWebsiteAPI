@@ -1,4 +1,4 @@
-﻿using JobWebsiteAPI.Models;
+﻿using JobWebsiteAPI.Models.AccountModels;
 using JobWebsiteAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using JobWebsiteAPI.Entities;
+using JobWebsiteAPI.Models.AccountModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace JobWebsiteAPI.Models.Validators

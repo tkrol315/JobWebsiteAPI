@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using JobWebsiteAPI.Entities;
 using JobWebsiteAPI.Exceptions;
-using JobWebsiteAPI.Models;
+using JobWebsiteAPI.Models.JobOffer;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -13,7 +13,7 @@ namespace JobWebsiteAPI.Services
         Task<int> CreateJobOfferDto(CreateJobOfferDto dto);
         Task<IEnumerable<GetJobOfferDto>> GetAll();
         Task<GetJobOfferDto> GetById(int id);
-        Task Delete(int id);
+        Task Remove(int id);
         Task Update(int id, UpdateJobOfferDto dto);
     }
     public class JobOfferService : IJobOfferService 
@@ -45,15 +45,15 @@ namespace JobWebsiteAPI.Services
         {
             var job = await _dbContext.JobOffers.Include(j => j.Tags).Include(j => j.Creator).Include(j => j.ContractTypes).FirstOrDefaultAsync(j => j.Id == id);
             if (job is null)
-                throw new NotFoundException("Job not found");
+                throw new NotFoundException("Job offer not found");
             return _mapper.Map<GetJobOfferDto>(job);
         }
 
-        public async Task Delete(int id)
+        public async Task Remove(int id)
         {
             var job =await _dbContext.JobOffers.FirstOrDefaultAsync(j => j.Id == id);
             if (job is null)
-                throw new NotFoundException("Job not found");
+                throw new NotFoundException("Job offer not found");
             _dbContext.JobOffers.Remove(job);
             await _dbContext.SaveChangesAsync();
         }
@@ -62,7 +62,7 @@ namespace JobWebsiteAPI.Services
         {
             var job = await _dbContext.JobOffers.FirstOrDefaultAsync(j => j.Id == id);
             if(job is null)
-                throw new NotFoundException("Job not found");
+                throw new NotFoundException("Job offer not found");
             job.GrossSalary = dto.GrossSalary;
             job.HoursPerMonth = dto.HoursPerMonth;
             job.Description = dto.Description;

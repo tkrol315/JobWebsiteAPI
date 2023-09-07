@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using JobWebsiteAPI.Entities;
 using JobWebsiteAPI.Exceptions;
-using JobWebsiteAPI.Models;
+using JobWebsiteAPI.Models.AccountModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

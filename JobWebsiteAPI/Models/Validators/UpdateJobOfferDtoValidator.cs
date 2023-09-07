@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using JobWebsiteAPI.Models.JobOffer;
 
 namespace JobWebsiteAPI.Models.Validators
 {

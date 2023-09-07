@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using JobWebsiteAPI.Entities;
+using JobWebsiteAPI.Models.AccountModels;
 
 namespace JobWebsiteAPI.Models.Validators
 {
