@@ -39,7 +39,7 @@ namespace JobWebsiteAPI.Controllers
         [HttpDelete("api/contracttype/{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            await _contractTypeService.Delete(id);
+            await _contractTypeService.Remove(id);
             return NoContent();
         }
     }

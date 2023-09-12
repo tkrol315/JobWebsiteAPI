@@ -14,16 +14,18 @@ namespace JobWebsiteAPI.Services
         Task RemoveFromJobOffer(int jobOfferId, int id);
         Task<IEnumerable<GetContractTypeDto>> GetAll();
         Task<GetContractTypeDto> GetById(int id);
-        Task Delete(int id);
+        Task Remove(int id);
     }
     public class ContractTypeService : IContractTypeSerivce
     {
         private readonly JobWebsiteDbContext _dbContext;
         private readonly IMapper _mapper;
-        public ContractTypeService(JobWebsiteDbContext dbContext, IMapper mapper)
+        private readonly ILogger _logger;
+        public ContractTypeService(JobWebsiteDbContext dbContext, IMapper mapper, ILogger<ContractType> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<int> CreateAddToJobOffer(int jobOfferId, CreateContractTypeDto dto)
         {
@@ -37,6 +39,7 @@ namespace JobWebsiteAPI.Services
                 throw new BadRequestException("Job offer already contains this contract type");
             jobOffer.ContractTypes.Add(contractType);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Contract type: {dto.Name} added to job offer with id: {jobOfferId}");
             return contractType.Id;
         }
         public async Task RemoveFromJobOffer(int jobOfferId, int id)
@@ -49,6 +52,7 @@ namespace JobWebsiteAPI.Services
                 throw new NotFoundException("Contract type not found");
             jobOffer.ContractTypes.Remove(contractType);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Contract type: {contractType.Name} removed from job offer with id: {jobOfferId}");
         }
         public async Task<IEnumerable<GetContractTypeDto>> GetAll()
         {
@@ -62,13 +66,14 @@ namespace JobWebsiteAPI.Services
                 throw new NotFoundException("Contract type not found");
             return _mapper.Map<GetContractTypeDto>(contractType);
         }
-        public async Task Delete(int id)
+        public async Task Remove(int id)
         {
             var contractType = await _dbContext.ContractTypes.FirstOrDefaultAsync(c => c.Id == id);
             if (contractType is null)
                 throw new NotFoundException("Contract type not found");
             _dbContext.ContractTypes.Remove(contractType);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Contract type: {contractType.Name} removed from all job offers");
         }
     }
 }

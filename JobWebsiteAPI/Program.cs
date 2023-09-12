@@ -10,6 +10,7 @@ using JobWebsiteAPI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NLog.Web;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,7 +59,7 @@ builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSingleton(jwtSettings);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.WebHost.UseNLog();
 
 var app = builder.Build();
 var scope = app.Services.CreateScope();
@@ -73,6 +74,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseAuthentication();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

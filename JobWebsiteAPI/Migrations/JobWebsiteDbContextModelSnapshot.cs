@@ -33,7 +33,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasIndex("JobOffersId");
 
-                    b.ToTable("ContractTypeJobOffer");
+                    b.ToTable("ContractTypeJobOffer", (string)null);
                 });
 
             modelBuilder.Entity("JobOfferPersonalAccount", b =>
@@ -48,7 +48,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasIndex("AppliedJobOffersId");
 
-                    b.ToTable("JobOfferPersonalAccount");
+                    b.ToTable("JobOfferPersonalAccount", (string)null);
                 });
 
             modelBuilder.Entity("JobOfferTag", b =>
@@ -63,7 +63,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("JobOfferTag");
+                    b.ToTable("JobOfferTag", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.Account", b =>
@@ -103,7 +103,7 @@ namespace JobWebsiteAPI.Migrations
                     b.HasIndex("AddressId")
                         .IsUnique();
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Account");
                 });
@@ -122,7 +122,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountTypes");
+                    b.ToTable("AccountTypes", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.Address", b =>
@@ -151,7 +151,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.ContractType", b =>
@@ -168,7 +168,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContractTypes");
+                    b.ToTable("ContractTypes", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.JobOffer", b =>
@@ -197,7 +197,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasIndex("CreatorId");
 
-                    b.ToTable("JobOffers");
+                    b.ToTable("JobOffers", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.Tag", b =>
@@ -214,7 +214,7 @@ namespace JobWebsiteAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("JobWebsiteAPI.Entities.CompanyAccount", b =>

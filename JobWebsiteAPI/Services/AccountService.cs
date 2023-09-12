@@ -23,12 +23,15 @@ namespace JobWebsiteAPI.Services
         private readonly IMapper _mapper;
         private readonly IPasswordHasher<Account> _passwordHasher;
         private readonly JwtSettings _jwtSettings;
-        public AccountService(JobWebsiteDbContext dbContext,  IMapper mapper, IPasswordHasher<Account> passwordHasher, JwtSettings jwtSettings)
+        private readonly ILogger _logger;
+        public AccountService(JobWebsiteDbContext dbContext,  IMapper mapper, IPasswordHasher<Account> passwordHasher, JwtSettings jwtSettings, ILogger<AccountService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _passwordHasher = passwordHasher;
             _jwtSettings = jwtSettings;
+            _logger = logger;
+
         }
         public async Task RegisterPersonalAccount(RegisterPersonalAccountDto dto)
         {
@@ -36,6 +39,7 @@ namespace JobWebsiteAPI.Services
             await _dbContext.AddAsync(newPersonalAccount);
             newPersonalAccount.PasswordHash = _passwordHasher.HashPassword(newPersonalAccount,dto.Password);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"New personal account with id: {newPersonalAccount.Id} created");
         }
 
         public async Task RegisterCompanyAccount(RegisterCompanyAccountDto dto)
@@ -44,6 +48,7 @@ namespace JobWebsiteAPI.Services
             await _dbContext.AddAsync(newCompanyAccount);
             newCompanyAccount.PasswordHash = _passwordHasher.HashPassword(newCompanyAccount, dto.Password);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"New company account with id: {newCompanyAccount.Id} created");
         }
 
 

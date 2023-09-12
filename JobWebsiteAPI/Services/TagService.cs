@@ -18,10 +18,12 @@ namespace JobWebsiteAPI.Services
     {
         private readonly JobWebsiteDbContext _dbContext;
         private readonly IMapper _mapper;
-        public TagService(JobWebsiteDbContext dbContext, IMapper mapper)
+        private readonly ILogger _logger;
+        public TagService(JobWebsiteDbContext dbContext, IMapper mapper, ILogger<TagService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task<int> CreateAddToJobOffer(int jobOfferId, CreateTagDto dto)
         {
@@ -35,6 +37,7 @@ namespace JobWebsiteAPI.Services
                 throw new BadRequestException("Offer already contains this tag");
             job.Tags.Add(tag);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Tag: {dto.Name} added to job offer with id: {jobOfferId}");
             return tag.Id;
         }
         public async Task RemoveFromJobOffer(int jobOfferId, int tagId)
@@ -47,6 +50,7 @@ namespace JobWebsiteAPI.Services
                 throw new NotFoundException("Tag not found");
             jobOffer.Tags.Remove(tag);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Tag: {tag.Name} removed from job offer with id: {jobOfferId}");
         }
         public async Task<IEnumerable<GetTagDto>> GetAll()
         {
@@ -66,6 +70,7 @@ namespace JobWebsiteAPI.Services
                 throw new NotFoundException("Tag not found");
             _dbContext.Tags.Remove(tag);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Tag: {tag.Name} removed from all job offers");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace JobWebsiteAPI.Services
 {
     public interface IJobOfferService
     {
-        Task<int> CreateJobOfferDto(CreateJobOfferDto dto);
+        Task<int> CreateJobOffer(CreateJobOfferDto dto);
         Task<IEnumerable<GetJobOfferDto>> GetAll();
         Task<GetJobOfferDto> GetById(int id);
         Task Remove(int id);
@@ -21,18 +21,21 @@ namespace JobWebsiteAPI.Services
         private readonly JobWebsiteDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IUserContextService _userContextService;
-        public JobOfferService(JobWebsiteDbContext dbContext, IMapper mapper, IUserContextService userContextService)
+        private readonly ILogger _logger;
+        public JobOfferService(JobWebsiteDbContext dbContext, IMapper mapper, IUserContextService userContextService, ILogger<JobOfferService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _userContextService = userContextService;
+            _logger = logger;
         }
-        public async Task<int> CreateJobOfferDto(CreateJobOfferDto dto)
+        public async Task<int> CreateJobOffer(CreateJobOfferDto dto)
         {
             var jobOffer = _mapper.Map<JobOffer>(dto);
             jobOffer.CreatorId = int.Parse(_userContextService.User.FindFirstValue(ClaimTypes.NameIdentifier));
             await _dbContext.JobOffers.AddAsync(jobOffer);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Job offer with id: {jobOffer.Id} created");
             return jobOffer.Id;
         }
 
@@ -56,6 +59,7 @@ namespace JobWebsiteAPI.Services
                 throw new NotFoundException("Job offer not found");
             _dbContext.JobOffers.Remove(job);
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Job offer with id: {id} removed");
         }
 
         public async Task Update(int id , UpdateJobOfferDto dto)
@@ -67,6 +71,7 @@ namespace JobWebsiteAPI.Services
             job.HoursPerMonth = dto.HoursPerMonth;
             job.Description = dto.Description;
             await _dbContext.SaveChangesAsync();
+            _logger.LogInformation($"Job offer with id: {id} updated");
         }
     }
 }

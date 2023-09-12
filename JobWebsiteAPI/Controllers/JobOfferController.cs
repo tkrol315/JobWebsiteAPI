@@ -18,7 +18,7 @@ namespace JobWebsiteAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateJobOfferDto dto)
         {
-            var id = await _jobOfferService.CreateJobOfferDto(dto);
+            var id = await _jobOfferService.CreateJobOffer(dto);
             return Created($"api/joboffer/{id}",null);
         }
         [HttpGet]
