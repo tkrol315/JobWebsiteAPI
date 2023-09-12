@@ -47,6 +47,7 @@ builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IJobOfferService, JobOfferService>();
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<IContractTypeSerivce, ContractTypeService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
 builder.Services.AddScoped<IValidator<RegisterCompanyAccountDto>, RegisterCompanyAccountDtoValidator>();

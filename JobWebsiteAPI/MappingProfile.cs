@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using JobWebsiteAPI.Entities;
 using JobWebsiteAPI.Models.AccountModels;
+using JobWebsiteAPI.Models.ContractTypeModels;
 using JobWebsiteAPI.Models.JobOffer;
 using JobWebsiteAPI.Models.TagModels;
 using System.Runtime.CompilerServices;
@@ -31,6 +32,7 @@ namespace JobWebsiteAPI
                 .ForMember(g => g.TagNames, opt => opt.MapFrom(j => j.Tags.Select(t => t.Name).ToList()))
                 .ForMember(g => g.CompanyName, opt => opt.MapFrom(j => j.Creator.CompanyName));
             CreateMap<Tag, GetTagDto>();
+            CreateMap<ContractType, GetContractTypeDto>();
         }
     }
 }
