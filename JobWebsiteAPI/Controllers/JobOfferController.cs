@@ -47,5 +47,12 @@ namespace JobWebsiteAPI.Controllers
             await _jobOfferService.Update(id, dto);
             return NoContent();
         }
+        [Authorize(Roles = "PersonalAccount")]
+        [HttpPost("{id}")]
+        public async Task<ActionResult> Apply([FromRoute] int id)
+        {
+            await _jobOfferService.Apply(id);
+            return NoContent();
+        }
     }
 }
